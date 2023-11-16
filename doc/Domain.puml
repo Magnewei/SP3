@@ -1,0 +1,23 @@
+@startuml
+
+object Chill
+object FileIO
+object User
+object Media
+object Movie
+object Series
+object Category
+object TextUI
+object Menus
+
+Media <|-- Movie
+Media <|-- Series
+Movie o-- Category
+Series o-- Category
+TextUI o-- Menus
+Chill o-- Media
+Chill o-- FileIO
+Chill o-- User
+Chill o-- TextUI
+
+@enduml

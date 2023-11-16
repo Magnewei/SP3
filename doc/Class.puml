@@ -1,0 +1,53 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class Media{
+    -String title
+    -double rating
+    -String categories
+}
+
+class Movie{
+    -int year
+}
+
+class Series{
+    -int startYear
+    -int endYear
+    -ArrayList<String> seasonsAndEpisodes
+}
+
+class Chill{
+
+}
+
+class FileIO{
+    +seriesList
+    +movieList
+    -loadList(File mediaList)
+    -saveCredentials(User u)
+    -createUser(String username,String password)
+    -login(String username,String password)
+}
+
+class User{
+    -String username
+    -String password
+    +ArrayList<Media> savedMedia
+    +ArrayList<Media> watchedMedia
+}
+
+class TextUI{
+    -searchString()
+    -searchCategory()
+    -displayWatched()
+    -displaySaved()
+}
+
+
+class ArrayList {
+Object[] elementData
+size()
+}
+
+@enduml
