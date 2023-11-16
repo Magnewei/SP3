@@ -1,53 +1,75 @@
 @startuml
 'https://plantuml.com/class-diagram
 
-abstract class Media{
-    -String title
-    -double rating
-    -String categories
-}
-
-class Movie{
-    -int year
-}
-
-class Series{
-    -int startYear
-    -int endYear
-    -ArrayList<String> seasonsAndEpisodes
+class Main{
+    +static void main(String[] args)
 }
 
 class Chill{
-
-}
-
-class FileIO{
+    -TextUI ui
+    -FileIO io
     +seriesList
     +movieList
-    -loadList(File mediaList)
-    -saveCredentials(User u)
-    -createUser(String username,String password)
-    -login(String username,String password)
+    -User currentUser
+    +saveMedia()
+    +watchMedia()
+    +removeMedia()
+    -search(String query)
 }
 
-class User{
-    -String username
-    -String password
-    +ArrayList<Media> savedMedia
-    +ArrayList<Media> watchedMedia
+package "util"{
+    class FileIO{
+        -Scanner scanner
+        -loadList(File mediaList)
+        -saveCredentials(User u)
+        -createUser(String username,String password)
+        -login(String username,String password)
+    }
+
+    class TextUI{
+        -Scanner scanner
+        -displayWatchedMedia(ArrayList<Media>)
+        -displaySavedMedia(ArrayList<Media>)
+
+    }
 }
 
-class TextUI{
-    -searchString()
-    -searchCategory()
-    -displayWatched()
-    -displaySaved()
+package "model"{
+    abstract class Media{
+        -String title
+        -double rating
+        -String categories
+        +Media(String title,double rating,String categories)
+    }
+
+    class Movie{
+        -int year
+        +Movie(String title,double rating,String categories,int year)
+    }
+
+    class Series{
+        -int startYear
+        -int endYear
+        -ArrayList<String> seasonsAndEpisodes
+        +Series(String title,double rating,String categories,int startYear,int endYear)
+        -fillSEA(Series s)
+    }
+
+    class User{
+        -String username
+        -String password
+        +ArrayList<Media> savedMedia
+        +ArrayList<Media> watchedMedia
+        +User(String username,String password)
+    }
 }
 
-
-class ArrayList {
-Object[] elementData
-size()
-}
+Main *-- Chill
+Chill *-- TextUI
+Chill *-- FileIO
+Chill *-- User
+Chill *-- Media
+Media <|-- Movie
+Media <|-- Series
 
 @enduml
