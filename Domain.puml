@@ -1,11 +1,17 @@
 @startuml
-'https://plantuml.com/sequence-diagram
+'nyt: carddeck - card
 
-autonumber
+object Main
+object FileIO
+object User
+object MovieCategory
 
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
 
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
+User <|-- MovieCategory
+
+
+
+
+
+
 @enduml
