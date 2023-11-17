@@ -18,8 +18,11 @@ class Chill{
 }
 
 package "util"{
-    class FileIO{
+    Interface IO{
         -Scanner scanner
+    }
+
+    class FileIO implements IO{
         -loadList(File mediaList)
         -saveCredentials(User u)
         -createUser(String username,String password)
@@ -42,12 +45,12 @@ package "model"{
         +Media(String title,double rating,String categories)
     }
 
-    class Movie{
+    class Movie extends Media{
         -int year
         +Movie(String title,double rating,String categories,int year)
     }
 
-    class Series{
+    class Series extends Media{
         -int startYear
         -int endYear
         -ArrayList<String> seasonsAndEpisodes
@@ -66,10 +69,9 @@ package "model"{
 
 Main *-- Chill
 Chill *-- TextUI
-Chill *-- FileIO
 Chill *-- User
 Chill *-- Media
-Media <|-- Movie
-Media <|-- Series
+Chill *-- IO
+
 
 @enduml
