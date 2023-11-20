@@ -4,13 +4,31 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class TextUI {
-    private String scan = "";
-    Scanner scanner = new Scanner(scan);
+    private Scanner scan = new Scanner(System.in);
 
-    String displayWatchedMedia(ArrayList<Media> media) {
-        return null;
+    //shows a message and returns the user's input as a String
+    public String getInput(String msg) {
+        this.displayMessage(msg);
+        return scan.nextLine();
     }
-    String displaySavedMedia(ArrayList<Media> media) {
-        return null;
+
+
+    public void displayMessage(String msg) {
+        System.out.println(msg);
     }
+
+
+    String displayWatchedMedia(ArrayList<Media> watchedMedia) {
+        for (int i = 0; i < watchedMedia.size(); i++) {
+
+            System.out.println(watchedMedia.get(i).getTitle());
+        }
+    }
+
+        String displaySavedMedia (ArrayList<Media> savedMedia) {
+            for (int i = 0; i < savedMedia.size(); i++) {
+
+                System.out.println(savedMedia.get(i).getTitle());
+            }
+        }
 }
