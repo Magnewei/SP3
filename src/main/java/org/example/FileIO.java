@@ -6,12 +6,10 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FileIO implements IO {
-    List<User> users = new ArrayList<User>();
-    File userInfo = new File("txt/userSave.txt");
+   private List<User> users = new ArrayList<User>();
+   private final File userInfo = new File("txt/userSave.txt");
 
     // Loads list of movies / series, depending on user choice.
-
-
     public List<Media> loadMovies() {
         List<Media> mediaList = new ArrayList<>();
         List<String> categories = new ArrayList<>();
