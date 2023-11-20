@@ -39,4 +39,26 @@ public class Chill {
         return searchedList;
     }
 
+    //Makes a list of all the media within the given category
+    private List<Media> searchByCategory(String category,List<Media> list){
+        List<Media> searchedList = new ArrayList<>();
+        for(Media m:list){
+            if(m.getCategories().contains(category)){
+                searchedList.add(m);
+            }
+        }
+        return searchedList;
+    }
+
+    //Returns a list of all the media with a higher rating than the given float.
+    private List<Media> searchByRating(double rating,List<Media> list){
+        List<Media> searchedList = new ArrayList<>();
+        for(Media m:list){
+            if(m.getRating()>=rating){
+                searchedList.add(m);
+            }
+        }
+        return searchedList;
+    }
+
 }
