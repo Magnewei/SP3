@@ -10,4 +10,16 @@ public abstract class Media {
         this.rating = rating;
         this.categories = categories;
     }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public String getCategories() {
+        return categories;
+    }
 }

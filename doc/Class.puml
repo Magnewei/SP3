@@ -11,9 +11,9 @@ class Chill{
     +seriesList
     +movieList
     -User currentUser
-    +saveMedia()
-    +watchMedia()
-    +removeMedia()
+    +saveMedia(Media m)
+    +watchMedia(Media m)
+    +removeMedia(Media m)
     -search(String query)
 }
 
@@ -31,9 +31,9 @@ package "util"{
 
     class TextUI{
         -Scanner scanner
+        +displayMessage(String msg)
         -displayWatchedMedia(ArrayList<Media>)
         -displaySavedMedia(ArrayList<Media>)
-
     }
 }
 
@@ -54,16 +54,16 @@ package "model"{
         -int startYear
         -int endYear
         -ArrayList<String> seasonsAndEpisodes
-        +Series(String title,double rating,String categories,int startYear,int endYear)
-        -fillSEA(Series s)
+        +Series(String title,double rating,String categories,int startYear,int endYear,ArrayList<String> seasonsAndEpisodes)
     }
 
     class User{
         -String username
         -String password
+        -int age
         +ArrayList<Media> savedMedia
         +ArrayList<Media> watchedMedia
-        +User(String username,String password)
+        +User(String username,String password,int age)
     }
 }
 

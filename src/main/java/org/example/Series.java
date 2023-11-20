@@ -7,9 +7,11 @@ public class Series extends Media {
     private int endYear;
     private ArrayList<String> seasonsAndEpisodes;
 
-    public Series(String title, double rating, String categories, int startYear, int endYear) {
+    public Series(String title, double rating, String categories, int startYear, int endYear, ArrayList<String> seasonsAndEpisodes) {
         super(title, rating, categories);
         this.startYear = startYear;
         this.endYear = endYear;
+        this.seasonsAndEpisodes = seasonsAndEpisodes;
     }
+
 }
