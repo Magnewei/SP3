@@ -10,6 +10,8 @@ public class User {
     public List<Media> savedMedia = new ArrayList<>();
     public List<Media> watchedMedia = new ArrayList<>();
 
+
+
     public User(String username, String password,int age) {
         this.username = username;
         this.password = password;
