@@ -1,11 +1,13 @@
 package org.example;
 
+import java.util.ArrayList;
+
 public abstract class Media {
     private String title;
     private double rating;
-    private String categories;
+    private ArrayList<String> categories;
 
-    public Media(String title, double rating, String categories) {
+    public Media(String title, double rating, ArrayList<String> categories) {
         this.title = title;
         this.rating = rating;
         this.categories = categories;
@@ -19,7 +21,7 @@ public abstract class Media {
         return rating;
     }
 
-    public String getCategories() {
+    public ArrayList<String> getCategories() {
         return categories;
     }
 }

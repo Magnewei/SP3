@@ -5,11 +5,14 @@ import java.util.List;
 
 public class Chill {
 
-    private FileIO io = new FileIO();
-    private TextUI ui = new TextUI();
+
+    private final FileIO io = new FileIO();
+    private final TextUI ui = new TextUI();
+
+
     private User currentUser;
-    public List<Movie> movieList = io.loadList();
-    public List<Series> seriesList = io.loadList();
+    //public List<Movie> movieList = io.loadList();
+   // public List<Series> seriesList = io.loadList();
 
     //Saves the selected media to the users list of saved media.
     public void saveMedia(User u,Media m){

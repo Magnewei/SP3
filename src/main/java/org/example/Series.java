@@ -3,14 +3,12 @@ package org.example;
 import java.util.ArrayList;
 
 public class Series extends Media {
-    private int startYear;
-    private int endYear;
+    private String years;
     private ArrayList<String> seasonsAndEpisodes;
 
-    public Series(String title, double rating, String categories, int startYear, int endYear, ArrayList<String> seasonsAndEpisodes) {
+    public Series(String title, double rating, ArrayList<String> categories, String years, ArrayList<String> seasonsAndEpisodes) {
         super(title, rating, categories);
-        this.startYear = startYear;
-        this.endYear = endYear;
+        this.years = years;
         this.seasonsAndEpisodes = seasonsAndEpisodes;
     }
 

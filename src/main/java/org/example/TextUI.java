@@ -23,6 +23,7 @@ public class TextUI {
 
             System.out.println(watchedMedia.get(i).getTitle());
         }
+        return null;
     }
 
         String displaySavedMedia (ArrayList<Media> savedMedia) {
@@ -30,5 +31,6 @@ public class TextUI {
 
                 System.out.println(savedMedia.get(i).getTitle());
             }
+            return null;
         }
 }

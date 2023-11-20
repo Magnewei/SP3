@@ -1,5 +1,6 @@
 @startuml
 'https://plantuml.com/class-diagram
+!pragma layout smetana
 
 class Main{
     +static void main(String[] args)
@@ -26,15 +27,15 @@ package "util"{
 
     class FileIO implements IO{
         +ArrayList<User> users
-        -loadList(File mediaList)
-        -saveCredentials(User u)
-        -createUser(String username,String password)
-        -login(String username,String password)
+        +List<Media> loadList()
+        +void saveCredentials(User u)
+        +void createUser(String username,String password)
+        +void login(String username,String password)
     }
 
     class TextUI{
         -Scanner scanner
-        +displayMessage(String msg)
+        String +displayMessage(String msg)
         -displayWatchedMedia(ArrayList<Media>)
         -displaySavedMedia(ArrayList<Media>)
     }
@@ -44,8 +45,8 @@ package "model"{
     abstract class Media{
         -String title
         -double rating
-        -String categories
-        +Media(String title,double rating,String categories)
+        -ArrayList<String> categories
+        +Media(String title,double rating,ArrayList<String> categories)
         +getTitle()
         +getRating()
         +getCategories()
@@ -53,14 +54,14 @@ package "model"{
 
     class Movie extends Media{
         -int year
-        +Movie(String title,double rating,String categories,int year)
+        +Movie(String title,double rating,ArrayList<String> categories,int year)
     }
 
     class Series extends Media{
         -int startYear
         -int endYear
         -ArrayList<String> seasonsAndEpisodes
-        +Series(String title,double rating,String categories,int startYear,int endYear,ArrayList<String> seasonsAndEpisodes)
+        +Series(String title,double rating,ArrayList<String> categories,int startYear,int endYear,ArrayList<String> seasonsAndEpisodes)
     }
 
     class User{
