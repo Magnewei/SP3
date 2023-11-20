@@ -8,8 +8,8 @@ public interface IO {
 
     public List<Media> loadList();
     public String saveCredentials(User u);
-    void createUser(String username, String password, int age);
-    void login(String username);
+    public void createUser(String username, String password, int age);
+    public void login(String username, String password);
 }
 
 

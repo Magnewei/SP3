@@ -1,18 +1,12 @@
 package org.example;
 
-import java.io.File;
-import org.example.IO;
-import org.example.User;
-import java.io.FileNotFoundException;
-import java.sql.Array;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class FileIO implements IO {
     List<User> users = new ArrayList<User>();
-
     File userInfo = new File("txt/userSave.txt");
 
     // Loads list of movies / series, depending on user choice.
@@ -34,7 +28,7 @@ public class FileIO implements IO {
                 String genres = parts[2].trim();
                 double rating = Double.parseDouble(parts[3].replace(",", ".").trim());
 
-                // Splits the genres into text strings.
+                // Splits the genres into text strings. E.g "; drama, crime;" will be written to seperate variables.
                 String[] genresArray = genres.split(",");    // Splits the genres in the line at comma.
                 for (String s : genresArray) {
                     categories.add(genres.trim());
@@ -49,9 +43,10 @@ public class FileIO implements IO {
         }
 
         return mediaList;
-
     }
 
+
+    // Returns a list of series.
     public List<Media> loadSeries() {
         List<Media> mediaList = new ArrayList<>();
         List<String> categories = new ArrayList<>();
@@ -68,16 +63,17 @@ public class FileIO implements IO {
                 String title = parts[0].trim();
                 String years = parts[1].trim();
 
-                double rating = Double.parseDouble(parts[3].replace(",", ".").trim());  // Changes the given text from 0,0 to 0.0 to comply with Double variable.
+                // Changes "," to "." to comply with double variable.
+                double rating = Double.parseDouble(parts[3].replace(",", ".").trim());
 
-                // Splits the genres into text strings.
+                // Splits the genres into text strings. E.g "; drama, crime;" will be written to seperate variables.
                 String genres = parts[2].trim();
-                String[] genresArray = genres.split(",");
+                String[] genresArray = genres.split(","); // Splits the genres in the line at comma.
                 for (String s : genresArray) {
                     categories.add(genres.trim());
                 }
 
-                // Splits the seasons and episodes into text strings.
+                // Splits the seasons and episodes into separate strings.
                 String seasons = parts[4].trim();
                 String[] seasonsArray = genres.split(",");
                 for (String s : seasonsArray) {
@@ -95,6 +91,7 @@ public class FileIO implements IO {
         return mediaList;
     }
 
+    // Returns a combined list of movies and series.
     public List<Media> loadList() {
         List<Media> moviesAndSeries = new ArrayList<>();
         moviesAndSeries.addAll(loadMovies());
@@ -105,22 +102,51 @@ public class FileIO implements IO {
     // Overwrites user credentials in userSave.txt.
     @Override
     public String saveCredentials(User u) {
+
+        // What's the goal of this method?
+        // Saving new information? Watched media?
+
         return null;
     }
 
     // Creates user object and calls saveCredentials() to write in userSave.txt.
     @Override
     public void createUser(String username, String password, int age) {
-        new User(username, password, age);
 
+        try {
+            FileWriter writer = new FileWriter(userInfo, true);
+            writer.write(username + " ; " + password + " ; " + age);
+            writer.close();
+            System.out.println("Username and password successfully written to file.");
+
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the file.");
+            e.printStackTrace();
+            users.add(new User(username, password, age));
+        }
     }
 
     // Looks up user in .txt file.
     @Override
-    public void login(String username) {
-        //scan userSave.txt.
+    public void login(String username, String password) {
 
-        // If username exists > recursion login(String) again to find password.
+        try {
+            Scanner scanner = new Scanner(userInfo);
 
+            while(scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                if(line.contains("Username:" + username + ", Password: " + password)) {
+
+                    // Missing functionality. What to do if line.contains == true?
+
+                    scanner.close();
+                }
+            }
+            scanner.close();
+
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing to the file.");
+            e.printStackTrace();
+        }
     }
 }
