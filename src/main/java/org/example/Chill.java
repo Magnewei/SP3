@@ -12,19 +12,19 @@ public class Chill {
 
     //Saves the selected media to the users list of saved media.
     public void saveMedia(User u,Media m){
-        u.savedMedia.add(m);
+        u.savedMedia.add(m.getTitle());
         ui.displayMessage(m.getTitle() + " has been added to your saved list.");
     }
 
     //"Plays" the selected media.
     public void watchMedia(User u,Media m){
         ui.displayMessage("You're now watching: " + m.getTitle());
-        u.watchedMedia.add(m);
+        u.watchedMedia.add(m.getTitle());
     }
 
     //Removes the selected media from the users list of saved media.
     public void removeMedia(User u, Media m){
-        u.savedMedia.remove(m);
+        u.savedMedia.remove(m.getTitle());
         ui.displayMessage(m.getTitle() + " has been removed from your saved list.");
     }
 
