@@ -107,7 +107,7 @@ public class FileIO implements IO {
             File series = new File("txt/userSave.txt");
             Scanner scanner = new Scanner(series);
 
-            while (scanner.hasNextLine()) {
+            while(scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] parts = line.split(" ; "); // Splits the text line by semicolon or "-".
                 String name = parts[0].trim();
@@ -135,7 +135,7 @@ public class FileIO implements IO {
         return users;
     }
 
-
+    // Loads users into user-ArrayList.
     public List<String> loadUserMedia(User u) {
         for (User user : users) {
             if (u.equals(user)) {

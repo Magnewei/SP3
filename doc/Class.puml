@@ -28,8 +28,13 @@ package "util"{
     class FileIO implements IO{
         +ArrayList<User> users
         +List<Media> loadList()
-        +void createUser(String username,String password)
-        +boolean login(String username,String password)
+        +List<Media> loadMovies()
+        +List<Media> loadSeries()
+        +List<String> loadUserMedia(User u)
+        +List<Users> loadUsers()
+        +User Login(username, password)
+        +void createUser(String username,String password, int age)
+
     }
 
     class TextUI{
@@ -70,6 +75,9 @@ package "model"{
         +ArrayList<Media> savedMedia
         +ArrayList<Media> watchedMedia
         +User(String username,String password,int age)
+    }
+    class Shrek {
+    Shrek();
     }
 }
 
