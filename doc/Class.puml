@@ -28,9 +28,8 @@ package "util"{
     class FileIO implements IO{
         +ArrayList<User> users
         +List<Media> loadList()
-        +void saveCredentials(User u)
         +void createUser(String username,String password)
-        +void login(String username,String password)
+        +boolean login(String username,String password)
     }
 
     class TextUI{

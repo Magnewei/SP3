@@ -6,10 +6,12 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FileIO implements IO {
-   private List<User> users = new ArrayList<User>();
-   private final File userInfo = new File("txt/userSave.txt");
+    List<User> users = new ArrayList<User>();
+    File userInfo = new File("txt/userSave.txt");
 
-    // Loads a list of movies from .txt and returns list of Movie-objects.
+    // Loads list of movies / series, depending on user choice.
+
+
     public List<Media> loadMovies() {
         List<Media> mediaList = new ArrayList<>();
         List<String> categories = new ArrayList<>();
@@ -44,7 +46,7 @@ public class FileIO implements IO {
     }
 
 
-    // Loads a list of series from .txt and returns list of Series-objects.
+    // Returns a list of series.
     public List<Media> loadSeries() {
         List<Media> mediaList = new ArrayList<>();
         List<String> categories = new ArrayList<>();
@@ -97,8 +99,15 @@ public class FileIO implements IO {
         return moviesAndSeries;
     }
 
+    // Overwrites user credentials in userSave.txt.
 
+    public String saveCredentials(User u) {
 
+        // What's the goal of this method?
+        // Saving new information? Watched media?
+
+        return null;
+    }
 
     // Creates user object and calls saveCredentials() to write in userSave.txt.
     @Override
@@ -108,7 +117,7 @@ public class FileIO implements IO {
             FileWriter writer = new FileWriter(userInfo, true);
             writer.write(username + " ; " + password + " ; " + age);
             writer.close();
-            System.out.println("Username, password and age has been successfully written to the file.");
+            System.out.println("Username and password successfully written to file.");
 
         } catch (IOException e) {
             System.out.println("An error occurred while writing to the file.");
@@ -117,7 +126,7 @@ public class FileIO implements IO {
         }
     }
 
-    // Looks up user in .txt file. Loads them if username and password are correct.
+    // Looks up user in .txt file.
     @Override
     public void login(String username, String password) {
 
@@ -126,8 +135,8 @@ public class FileIO implements IO {
 
             while(scanner.hasNextLine()) {
                 String line = scanner.nextLine();
-                if(line.contains(username + " ; " + password)) {
-                    System.out.println(username + " " + password);
+                if(line.contains("Username:" + username + ", Password: " + password)) {
+
                     // Missing functionality. What to do if line.contains == true?
 
                     scanner.close();
