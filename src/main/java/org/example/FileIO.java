@@ -6,12 +6,11 @@ import java.util.List;
 import java.util.Scanner;
 
 public class FileIO implements IO {
-    List<User> users = new ArrayList<User>();
-    File userInfo = new File("txt/userSave.txt");
 
-    // Loads list of movies / series, depending on user choice.
+    public List<User> users = loadUsers();
+    private final File userInfo = new File("txt/userSave.txt");
 
-
+    // Loads a list of movies from .txt and returns list of Movie-objects.
     public List<Media> loadMovies() {
         List<Media> mediaList = new ArrayList<>();
         List<String> categories = new ArrayList<>();
@@ -46,7 +45,7 @@ public class FileIO implements IO {
     }
 
 
-    // Returns a list of series.
+    // Loads a list of series from .txt and returns list of Series-objects.
     public List<Media> loadSeries() {
         List<Media> mediaList = new ArrayList<>();
         List<String> categories = new ArrayList<>();
@@ -99,54 +98,82 @@ public class FileIO implements IO {
         return moviesAndSeries;
     }
 
-    // Overwrites user credentials in userSave.txt.
 
-    public String saveCredentials(User u) {
+    // Loads users into an ArrayList, for later in-memory crosschecking and verification of datatypes.
+    public List<User> loadUsers () {
+        List<String> userWatchedMedia = new ArrayList<>();
 
-        // What's the goal of this method?
-        // Saving new information? Watched media?
+        try {
+            File series = new File("txt/userSave.txt");
+            Scanner scanner = new Scanner(series);
 
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] parts = line.split(" ; "); // Splits the text line by semicolon or "-".
+                String name = parts[0].trim();
+                String password = parts[1].trim();
+                int age = Integer.parseInt(parts[2].trim());
+
+                String watchedMedia = parts[3].trim();
+
+                // Changes "," to "." to comply with double variable.
+                double rating = Double.parseDouble(parts[3].replace(",", ".").trim());
+
+                // Splits the users watched movies into Strings.
+                String watchedMovies = parts[3].trim();
+                String[] moviesArray = watchedMovies.split(","); // Splits the genres in the line at comma
+                for (String s : moviesArray) {
+                    userWatchedMedia.add(watchedMovies.trim());
+                }
+
+                users.add(new User(name, password, age, userWatchedMedia));
+                return users;
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        return users;
+    }
+
+
+    public List<String> loadUserMedia(User u) {
+        for (User user : users) {
+            if (u.equals(user)) {
+                return user.getUserWatchedMedia();
+            }
+        }
         return null;
     }
 
-    // Creates user object and calls saveCredentials() to write in userSave.txt.
-    @Override
+
+    // Creates user object writes object variables into userSave.txt.
     public void createUser(String username, String password, int age) {
 
         try {
             FileWriter writer = new FileWriter(userInfo, true);
-            writer.write(username + " ; " + password + " ; " + age);
+            writer.write(username + " ; " + password + " ; " + age + " ;  " +  " ; ");
             writer.close();
-            System.out.println("Username and password successfully written to file.");
+            System.out.println("Username, password and age has been successfully written to the file.");
 
         } catch (IOException e) {
+
             System.out.println("An error occurred while writing to the file.");
             e.printStackTrace();
-            users.add(new User(username, password, age));
+
         }
     }
 
-    // Looks up user in .txt file.
-    @Override
-    public void login(String username, String password) {
+    // Looks up existing users according to username and password.
+    // Returns user object if correct username and password are found.
+    public User login(String username, String password) {
 
-        try {
-            Scanner scanner = new Scanner(userInfo);
-
-            while(scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                if(line.contains("Username:" + username + ", Password: " + password)) {
-
-                    // Missing functionality. What to do if line.contains == true?
-
-                    scanner.close();
-                }
+        for(User user : users) {
+            if (user.getUsername().equals(username)  && user.getPassword().equals(password)) {
+                return user;
             }
-            scanner.close();
-
-        } catch (IOException e) {
-            System.out.println("An error occurred while writing to the file.");
-            e.printStackTrace();
         }
+        System.out.println("No user with the username and/or password was found.");
+        return null;
     }
+
 }
