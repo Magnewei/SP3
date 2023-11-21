@@ -19,6 +19,10 @@ public class User {
         return password;
     }
 
+    public List<String> getUserWatchedMedia() {
+        return userWatchedMedia;
+    }
+
     public User(String username, String password, int age, List<String> userWatchedMedia) {
         this.username = username;
         this.password = password;

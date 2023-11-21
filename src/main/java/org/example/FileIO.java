@@ -98,8 +98,9 @@ public class FileIO implements IO {
         return moviesAndSeries;
     }
 
+
+    // Loads users into an ArrayList, for later in-memory crosschecking and verification of datatypes.
     public List<User> loadUsers () {
-        List<User> users = new ArrayList<User>();
         List<String> userWatchedMedia = new ArrayList<>();
 
         try {
@@ -133,14 +134,19 @@ public class FileIO implements IO {
         }
         return users;
     }
-    public void loadUserMedia() {
 
 
+    public List<String> loadUserMedia(User u) {
+        for (User user : users) {
+            if (u.equals(user)) {
+                return user.getUserWatchedMedia();
+            }
+        }
+        return null;
     }
 
 
-    // Creates user object and calls saveCredentials() to write in userSave.txt.
-    @Override
+    // Creates user object writes object variables into userSave.txt.
     public void createUser(String username, String password, int age) {
 
         try {
@@ -157,11 +163,9 @@ public class FileIO implements IO {
         }
     }
 
-    // Looks up user in .txt file. Loads them if username and password are correct.
-    @Override
+    // Looks up existing users according to username and password.
+    // Returns user object if correct username and password are found.
     public User login(String username, String password) {
-        String name = username;
-        String pass = password;
 
         for(User user : users) {
             if (user.getUsername().equals(username)  && user.getPassword().equals(password)) {
