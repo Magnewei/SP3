@@ -7,8 +7,8 @@ public class User {
     private String username;
     private String password;
     private int age;
-    public List<Media> savedMedia = new ArrayList<>();
-    public List<Media> watchedMedia = new ArrayList<>();
+    public List<String> savedMedia = new ArrayList<>();
+    public List<String> watchedMedia = new ArrayList<>();
 
 
 
