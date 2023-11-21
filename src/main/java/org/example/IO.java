@@ -9,7 +9,7 @@ public interface IO {
     public List<Media> loadList();
     public String saveCredentials(User u);
     public void createUser(String username, String password, int age);
-    public void login(String username, String password);
+    public User login(String username, String password);
 }
 
 
