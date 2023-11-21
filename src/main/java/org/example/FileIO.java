@@ -9,7 +9,7 @@ public class FileIO implements IO {
    private List<User> users = new ArrayList<User>();
    private final File userInfo = new File("txt/userSave.txt");
 
-    // Loads list of movies / series, depending on user choice.
+    // Loads a list of movies from .txt and returns list of Movie-objects.
     public List<Media> loadMovies() {
         List<Media> mediaList = new ArrayList<>();
         List<String> categories = new ArrayList<>();
@@ -44,7 +44,7 @@ public class FileIO implements IO {
     }
 
 
-    // Returns a list of series.
+    // Loads a list of series from .txt and returns list of Series-objects.
     public List<Media> loadSeries() {
         List<Media> mediaList = new ArrayList<>();
         List<String> categories = new ArrayList<>();
