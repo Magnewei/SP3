@@ -9,8 +9,8 @@ class Main{
 class Chill{
     -TextUI ui
     -FileIO io
-    +seriesList
-    +movieList
+    +List<Series> seriesList
+    +List<Movie> movieList
     -User currentUser
     +saveMedia(Media m)
     +watchMedia(Media m)

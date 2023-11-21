@@ -13,6 +13,7 @@ public class Chill {
     //Saves the selected media to the users list of saved media.
     public void saveMedia(User u,Media m){
         u.savedMedia.add(m);
+        ui.displayMessage(m.getTitle() + " has been added to your saved list.");
     }
 
     //"Plays" the selected media.
@@ -28,7 +29,7 @@ public class Chill {
     }
 
     //Searches for a query and returns a list of media where the title contains the query
-    private List<Media> searchByName(String query,List<Media> list){
+    public List<Media> searchByName(String query,List<Media> list){
         List<Media> searchedList = new ArrayList<>();
         for(Media m:list){
             if(m.getTitle().contains(query)){
@@ -39,7 +40,7 @@ public class Chill {
     }
 
     //Makes a list of all the media within the given category
-    private List<Media> searchByCategory(String category,List<Media> list){
+    public List<Media> searchByCategory(String category,List<Media> list){
         List<Media> searchedList = new ArrayList<>();
         for(Media m:list){
             if(m.getCategories().contains(category)){
@@ -50,7 +51,7 @@ public class Chill {
     }
 
     //Returns a list of all the media with a higher rating than the given float.
-    private List<Media> searchByRating(double rating,List<Media> list){
+    public List<Media> searchByRating(double rating,List<Media> list){
         List<Media> searchedList = new ArrayList<>();
         for(Media m:list){
             if(m.getRating()>=rating){
