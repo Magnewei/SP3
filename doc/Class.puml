@@ -39,7 +39,7 @@ package "util"{
 
     class TextUI{
         -Scanner scanner
-        String +displayMessage(String msg)
+        +String displayMessage(String msg)
         -displayWatchedMedia(ArrayList<Media>)
         -displaySavedMedia(ArrayList<Media>)
     }

@@ -17,6 +17,13 @@ public class User {
         return password;
     }
 
+    public List<String> getSavedMedia() {
+        return savedMedia;
+    }
+
+    public List<String> getWatchedMedia() {
+        return watchedMedia;
+    }
 
     public User(String username, String password, int age, List<String> watchedMedia, List<String> savedMedia) {
         this.username = username;

@@ -1,5 +1,6 @@
 package org.example;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +10,9 @@ public class Chill {
     private User currentUser;
     public List<Media> movieList = io.loadMovies();
     public List<Media> seriesList = io.loadSeries();
+
+    public Chill() throws FileNotFoundException {
+    }
 
     //Saves the selected media to the users list of saved media.
     public void saveMedia(User u,Media m){
