@@ -1,10 +1,7 @@
 package org.example;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class FileIO implements IO {
@@ -193,7 +190,7 @@ public class FileIO implements IO {
     public void createUser(String username, String password, int age) {
 
         try {
-            FileWriter writer = new FileWriter(userInfo, true);
+            FileWriter writer = new FileWriter("txt/userSave.txt", true);
             writer.write(username + "; " + password + "; " + age + ";  " +  "; ");
             writer.close();
             System.out.println("Username, password and age has been successfully written to the file.");
@@ -215,6 +212,17 @@ public class FileIO implements IO {
         }
         System.out.println("No user with the username and/or password was found.");
         return null;
+    }
+
+    public List<String> getCategories(){
+        List<Media> medias = loadList();
+        List<String> categories = new ArrayList<>();
+        for (int i = 0; i < medias.size(); i++) {
+            categories.addAll(medias.get(i).getCategories());
+        }
+        Set<String> uniques = new HashSet<>(categories);
+        List<String> uCategories = List.copyOf(uniques);
+        return uCategories;
     }
 
 }

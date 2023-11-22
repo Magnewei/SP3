@@ -7,7 +7,6 @@ import java.util.List;
 public class Chill {
     private final FileIO io = new FileIO();
     private final TextUI ui = new TextUI();
-    private User currentUser;
     public List<Media> movieList = io.loadMovies();
     public List<Media> seriesList = io.loadSeries();
 

@@ -17,6 +17,10 @@ public class User {
         return password;
     }
 
+    public int getAge(){
+        return age;
+    }
+
     public List<String> getSavedMedia() {
         return savedMedia;
     }

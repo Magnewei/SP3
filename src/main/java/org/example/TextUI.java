@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class TextUI {
@@ -18,19 +19,18 @@ public class TextUI {
     }
 
 
-    String displayWatchedMedia(ArrayList<Media> watchedMedia) {
-        for (int i = 0; i < watchedMedia.size(); i++) {
+    String displayMedia(List<Media> media) {
+        for (int i = 0; i < media.size(); i++) {
 
-            System.out.println(watchedMedia.get(i).getTitle());
+            System.out.println(media.get(i).getTitle());
         }
         return null;
     }
 
-        String displaySavedMedia (ArrayList<Media> savedMedia) {
-            for (int i = 0; i < savedMedia.size(); i++) {
+    public void displayCategories(List<String> categories){
+        for (int i = 0; i < categories.size(); i++) {
 
-                System.out.println(savedMedia.get(i).getTitle());
-            }
-            return null;
+            System.out.println(categories.get(i));
         }
+    }
 }
