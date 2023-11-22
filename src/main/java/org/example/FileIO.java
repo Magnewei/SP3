@@ -190,7 +190,7 @@ public class FileIO implements IO {
 
         try {
             FileWriter writer = new FileWriter("txt/userSave.txt", true);
-            writer.write(username + "; " + password + "; |" + age + ";  " +  "; ");
+            writer.write(username + "; " + password + "; | " + age + ";  |" +  "; ");
             writer.close();
             System.out.println("Username, password and age has been successfully written to the file.");
 
