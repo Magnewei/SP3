@@ -10,9 +10,10 @@ public class Main {
     public static void main(String[] args) throws FileNotFoundException {
 
         FileIO io = new FileIO();
-        List<User> s = new ArrayList<>();
-        s = io.loadUsers();
-        System.out.println(s.get(0).getUsername());
+        List<User> users = new ArrayList<>();
+        users = io.loadUsers();
+
+        System.out.println(users.get(0).getUsername());
         System.out.println(io.loadSeries().get(2).getCategories());
     }
 }
