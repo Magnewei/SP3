@@ -24,11 +24,10 @@ public class FileIO implements IO {
             while(scanner.hasNextLine()) {
                 List<String> categories = new ArrayList<>();
                 String line = scanner.nextLine();
-                String[] parts = line.split("; "); // Splits the text line by semicolon.
+                String[] parts = line.split(";"); // Splits the text line by semicolon.
                 String title = parts[0];
                 int year = Integer.parseInt(parts[1].trim());
                 String genres = parts[2].trim();
-
                 double rating = Double.parseDouble(parts[3].replace(",", ".").trim());
 
                 // Splits the genres into text strings. E.g "; drama, crime;" will be written to seperate variables.
@@ -209,8 +208,9 @@ public class FileIO implements IO {
             if (user.getUsername().equals(username)  && user.getPassword().equals(password)) {
                 return user;
             }
+            System.out.println("User not found.");
         }
-        System.out.println("No user with the username and/or password was found.");
+
         return null;
     }
 

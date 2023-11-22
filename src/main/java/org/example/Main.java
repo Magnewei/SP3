@@ -33,10 +33,12 @@ public class Main {
         input = ui.getInput("Hvad vil du nu? \n 1) Søge efter en film/serie \n 2) Se alle film/serier i en bestemt kategori \n 3) Søge efter film/serier med en bestemt rating eller over \n 4) Se Shrek");
         if(input.equals("1")){
             input = ui.getInput("Indtast søgeord: ");
-            ch.searchByName(input,all);
+            ui.displayMedia(ch.searchByName(input,all));
+
         }else if(input.equals("2")){
-            input = ui.getInput("Vælg kategori");
             ui.displayCategories(io.getCategories());
+            input = ui.getInput("Vælg kategori");
+            ui.displayMedia(ch.searchByCategory(input,all));
         }
 
 
