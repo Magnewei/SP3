@@ -160,7 +160,7 @@ public class FileIO implements IO {
                     // Update the line with new watched and saved media lists.
                     String watchedMediaString = String.join(", ", u.getWatchedMedia());
                     String savedMediaString = String.join(", ", u.getSavedMedia());
-                    line = parts[0] + "; " + parts[1] + "; " + parts[2] + "; " + watchedMediaString + "; " + savedMediaString + ";";
+                    line = parts[0] + "; " + parts[1] + "; " + parts[2] + "; " + watchedMediaString + "; " + savedMediaString;
                 }
                 fileContent.add(line);
             }

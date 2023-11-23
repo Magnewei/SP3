@@ -1,11 +1,12 @@
 package org.example;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws IOException {
         FileIO io = new FileIO();
         TextUI ui = new TextUI();
         Chill ch = new Chill();
@@ -20,10 +21,9 @@ public class Main {
         if(input.equals("1")){
             String username = ui.getInput("Choose a username: ");
             String password = ui.getInput("Choose a password: ");
-            int age = Integer.parseInt(ui.getInput("Write your age: "));
             List<String> empty = new ArrayList<>();
-            io.createUser(username,password,age);
-            ui.displayMessage("User has been created,please loin now");
+            io.createUser(username,password,0);
+            ui.displayMessage("User has been created,please login now");
             currentUser = io.login(ui.getInput("Write your username"),ui.getInput("Write your password"));
         }else if(input.equals("2")){
             currentUser = io.login(ui.getInput("Write your username"),ui.getInput("Write your password"));
@@ -68,7 +68,10 @@ public class Main {
                     ui.displayMessage(currentUser.getWatchedMedia().toString());
                 }
                 case "6" -> new Shrek();
-                case "7" -> currentUser = null;
+                case "7" -> {
+                    io.saveMediaList(currentUser);
+                    currentUser = null;
+                }
                 default -> ui.displayMessage("You have to pick a number, corresponding to one of the options");
             }
 
