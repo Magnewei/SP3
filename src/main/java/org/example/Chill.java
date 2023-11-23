@@ -35,7 +35,7 @@ public class Chill {
     public List<Media> searchByName(String query,List<Media> list){
         List<Media> searchedList = new ArrayList<>();
         for(Media m:list){
-            if(m.getTitle().contains(query)){
+            if (m.getTitle().toLowerCase().contains(query.toLowerCase())) {
                 searchedList.add(m);
             }
         }
@@ -46,7 +46,7 @@ public class Chill {
     public List<Media> searchByCategory(String category,List<Media> list){
         List<Media> searchedList = new ArrayList<>();
         for(Media m:list){
-            if(m.getCategories().contains(category)){
+            if (m.getCategories().stream().anyMatch(c -> c.equalsIgnoreCase(category))) {
                 searchedList.add(m);
             }
         }

@@ -112,10 +112,10 @@ public class FileIO implements IO {
 
         while(scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            String[] parts = line.split(";");
+            String[] parts = line.split("; ");
 
             if (parts.length < 5) {
-               System.out.println("Skipping malformed line: " + line);
+                System.out.println("Skipping malformed line: " + line);
                 continue;
             }
 
@@ -160,7 +160,7 @@ public class FileIO implements IO {
                     // Update the line with new watched and saved media lists.
                     String watchedMediaString = String.join(", ", u.getWatchedMedia());
                     String savedMediaString = String.join(", ", u.getSavedMedia());
-                    line = parts[0] + "; " + parts[1] + "; " + parts[2] + "; " + watchedMediaString + "; " + savedMediaString + ";";
+                    line = parts[0] + "; " + parts[1] + "; " + parts[2] + "; " + watchedMediaString + "; " + savedMediaString;
                 }
                 fileContent.add(line);
             }
@@ -190,7 +190,7 @@ public class FileIO implements IO {
 
         try {
             FileWriter writer = new FileWriter("txt/userSave.txt", true);
-            writer.write(username + "; " + password + "; | " + age + "; |" +  "; ");
+            writer.write("\n" + username + "; " + password + "; " + age + "; Shrek" +  "; Shrek");
             writer.close();
             System.out.println("Username, password and age has been successfully written to the file.");
 
@@ -208,9 +208,8 @@ public class FileIO implements IO {
             if (user.getUsername().equals(username)  && user.getPassword().equals(password)) {
                 return user;
             }
-            //System.out.println("User not found.");
         }
-
+        System.out.println("User not found.");
         return null;
     }
 
