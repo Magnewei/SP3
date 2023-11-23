@@ -27,22 +27,85 @@ public class Main {
             currentUser = io.login(ui.getInput("Write your username"),ui.getInput("Write your password"));
         }else if(input.equals("2")){
             currentUser = io.login(ui.getInput("Write your username"),ui.getInput("Write your password"));
+        }else{
+            ui.displayMessage("You need a user to use this service!");
+            currentUser = null;
         }
 
-        //Giv brugeren valgmuligheder
-        input = ui.getInput("Hvad vil du nu? \n 1) Søge efter en film/serie \n 2) Se alle film/serier i en bestemt kategori \n 3) Søge efter film/serier med en bestemt rating eller over \n 4) Se Shrek");
-        if(input.equals("1")){
-            input = ui.getInput("Indtast søgeord: ");
-            ui.displayMedia(ch.searchByName(input,all));
+        while(currentUser != null){
+            //Giv brugeren valgmuligheder
+            input = ui.getInput("Hvad vil du nu? \n 1) Søge efter en film/serie \n 2) Se alle film/serier i en bestemt kategori \n 3) Søge efter film/serier med en bestemt rating eller over \n 4) Se din liste over gemte film og serier \n 5) Se din liste over de film og serier du allerede har set \n 6) Se Shrek \n 7) afslutte programmet");
+            Media currentMedia;
+            switch (input) {
+                case "1" -> {
+                    input = ui.getInput("Indtast søgeord: ");
+                    List<Media> list = ch.searchByName(input, all);
+                    while(list.isEmpty()){
+                        input = ui.getInput("That search didn't yield any results, search for something else");
+                        list = ch.searchByName(input, all);
+                    }
+                    chooseMedia(ui, ch, currentUser, list);
+                }
+                case "2" -> {
+                    ui.displayCategories(io.getCategories());
+                    input = ui.getInput("Vælg kategori");
+                    List<Media> categorised = ch.searchByCategory(input, all);
+                    chooseMedia(ui, ch, currentUser, categorised);
+                }
+                case "3" -> {
+                    String rating = ui.getInput("Hvilken rating skal filmen mindst have på IMDB?");
+                    List<Media> list = ch.searchByRating(Double.parseDouble(rating), all);
+                    while(list.isEmpty()){
+                        rating = ui.getInput("No movies or series have this rating or above, lower your excpectations a bit");
+                        list = ch.searchByRating(Double.parseDouble(rating), all);
+                    }
+                    chooseMedia(ui,ch,currentUser,list);
+                }
+                case "4" -> {
+                    ui.displayMessage(currentUser.getSavedMedia().toString());
+                }
+                case "5" -> {
+                    ui.displayMessage(currentUser.getWatchedMedia().toString());
+                }
+                case "6" -> new Shrek();
+                case "7" -> currentUser = null;
+                default -> ui.displayMessage("You have to pick a number, corresponding to one of the options");
+            }
 
-        }else if(input.equals("2")){
-            ui.displayCategories(io.getCategories());
-            input = ui.getInput("Vælg kategori");
-            ui.displayMedia(ch.searchByCategory(input,all));
         }
 
 
 
+
+
+    }
+
+    private static void chooseMedia(TextUI ui, Chill ch, User currentUser, List<Media> sorted) {
+        String input;
+        Media currentMedia;
+        ui.displayMedia(sorted);
+        input = ui.getInput("Vælg en film eller serie:");
+        for (Media media : sorted) {
+            if (media.getTitle().equalsIgnoreCase(input)) {
+                currentMedia = media;
+                if(currentUser.getSavedMedia().contains(currentMedia.getTitle())) {
+                    input = ui.getInput("Hvad vil du foretage dig? \n 1) Se denne film/serie \n 2) Fjerne denne film/serie fra din liste");
+                    if(input.equals("1")){
+                        ch.watchMedia(currentUser,currentMedia);
+                    }else if (input.equals("2")){
+                        ch.removeMedia(currentUser,currentMedia);
+                    }
+                }else{
+                    input = ui.getInput("Hvad vil du foretage dig? \n 1) Se denne film/serie \n 2) Gemme denne film/serie på din liste");
+                    if(input.equals("1")){
+                        ch.watchMedia(currentUser,currentMedia);
+                    } else if (input.equals("2")) {
+                        ch.saveMedia(currentUser,currentMedia);
+                    }
+                }
+            }
+
+        }
     }
 
 }

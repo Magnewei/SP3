@@ -190,7 +190,7 @@ public class FileIO implements IO {
 
         try {
             FileWriter writer = new FileWriter("txt/userSave.txt", true);
-            writer.write(username + "; " + password + "; " + age + ";  " +  "; ");
+            writer.write("\n" + username + "; " + password + "; " + age + "; Shrek" +  "; Shrek");
             writer.close();
             System.out.println("Username, password and age has been successfully written to the file.");
 
@@ -208,9 +208,8 @@ public class FileIO implements IO {
             if (user.getUsername().equals(username)  && user.getPassword().equals(password)) {
                 return user;
             }
-            System.out.println("User not found.");
         }
-
+        System.out.println("User not found.");
         return null;
     }
 
