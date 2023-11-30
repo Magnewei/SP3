@@ -112,7 +112,7 @@ public class FileIO implements IO {
     // Loads users into an ArrayList, for later in-memory crosschecking and verification of datatypes.
     public List<User> loadUsers() throws FileNotFoundException {
         List<User> users = new ArrayList<>();
-        Scanner scanner = new Scanner(new File("txt/userSave.txt"));
+        Scanner scanner = new Scanner(new File("txtcsv/userSave.txt"));
 
         while(scanner.hasNextLine()) {
             String line = scanner.nextLine();
