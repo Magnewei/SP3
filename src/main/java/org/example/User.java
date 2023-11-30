@@ -6,7 +6,6 @@ import java.util.List;
 public class User {
     private String username;
     private String password;
-    private int age;
     public List<String> savedMedia = new ArrayList<>();
     public List<String> watchedMedia = new ArrayList<>();
     public String getUsername() {
