@@ -57,7 +57,8 @@ public class Main {
                     chooseMedia(ui, ch, currentUser, list);
                 }
                 case "2" -> {
-                    ui.displayCategories(io.getCategories());
+                    //ui.displayCategories(io.getCategories());
+                    ui.displayCategories(db.getCategories());
                     input = ui.getInput("Vælg kategori");
                     List<Media> categorised = ch.searchByCategory(input, all);
                     chooseMedia(ui, ch, currentUser, categorised);
@@ -66,7 +67,7 @@ public class Main {
                     String rating = ui.getInput("Hvilken rating skal filmen mindst have på IMDB?");
                     List<Media> list = ch.searchByRating(Double.parseDouble(rating), all);
                     while(list.isEmpty()){
-                        rating = ui.getInput("No movies or series have this rating or above, lower your excpectations a bit");
+                        rating = ui.getInput("No movies or series have this rating or above, lower your excpectations a bit, and write a new rating!");
                         list = ch.searchByRating(Double.parseDouble(rating), all);
                     }
                     chooseMedia(ui,ch,currentUser,list);
@@ -79,7 +80,8 @@ public class Main {
                 }
                 case "6" -> new Shrek();
                 case "7" -> {
-                    io.saveMediaList(currentUser);
+                    //io.saveMediaList(currentUser);
+                    db.saveMediaList(currentUser);
                     currentUser = null;
                 }
                 default -> ui.displayMessage("You have to pick a number, corresponding to one of the options");

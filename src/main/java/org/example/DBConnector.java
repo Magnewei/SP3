@@ -5,10 +5,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class DBConnector implements IO{
@@ -328,5 +325,46 @@ public class DBConnector implements IO{
         }
         System.out.println("No user with the username and/or password was found.");
         return null;
+    }
+
+    @Override
+    public List<String> getCategories() throws SQLException {
+        List<Media> medias = loadList();
+        List<String> categories = new ArrayList<>();
+        for (Media media : medias) {
+            categories.addAll(media.getCategories());
+        }
+        Set<String> uniques = new HashSet<>(categories);
+        return List.copyOf(uniques);
+    }
+
+    public void saveMediaList(User u){
+
+    }
+
+    public int getMediaID(String mediaType, String mediaTitle) throws SQLException {
+        String query;
+        switch (mediaType.toLowerCase()) {
+            case "movie":
+                query = "SELECT movieID FROM movie WHERE name = ?";
+                break;
+            case "series":
+                query = "SELECT seriesID FROM series WHERE name = ?";
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid media type: " + mediaType);
+        }
+
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, mediaTitle);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                return resultSet.getInt(1);  // Assuming the ID is in the first column
+            } else {
+                throw new RuntimeException("Media not found: " + mediaTitle);
+            }
+        }
     }
 }

@@ -1,10 +1,7 @@
 package org.example;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class FileIO implements IO {
@@ -215,6 +212,16 @@ public class FileIO implements IO {
         }
         System.out.println("No user with the username and/or password was found.");
         return null;
+    }
+
+    public List<String> getCategories(){
+        List<Media> medias = loadList();
+        List<String> categories = new ArrayList<>();
+        for (Media media : medias) {
+            categories.addAll(media.getCategories());
+        }
+        Set<String> uniques = new HashSet<>(categories);
+        return List.copyOf(uniques);
     }
 
 }

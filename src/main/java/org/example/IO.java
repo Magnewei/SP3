@@ -11,6 +11,8 @@ public interface IO {
     public List<String> loadUserMedia(User u) throws FileNotFoundException;
     public List<Media> loadList() throws SQLException;
     public User login(String username, String password) throws FileNotFoundException;
+
+    public List<String> getCategories() throws SQLException;
 }
 
 
