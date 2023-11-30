@@ -1,15 +1,15 @@
 package org.example;
 
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.List;
 
 public interface IO {
-    public List<Media> loadSeries();
-    public List<Media> loadMovies();
+    public List<Media> loadSeries() throws SQLException;
+    public List<Media> loadMovies() throws SQLException;
    // public List<User> loadUsers();
     public List<String> loadUserMedia(User u) throws FileNotFoundException;
     public List<Media> loadList();
-    public void createUser(String username, String password, int age);
     public User login(String username, String password) throws FileNotFoundException;
 }
 
