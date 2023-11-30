@@ -23,5 +23,12 @@ public class Main {
         System.out.println(movies.get(0).getTitle());
         List<Media> series = db.loadSeries();
         System.out.println(series.get(0).getTitle());
+        List<Media> all = db.loadList();
+        System.out.println(all.get(0).getTitle());
+        System.out.println(all.get(100).getTitle());
+        //Tester user loding
+        users = db.loadUsers();
+        System.out.println(users.get(0).getUsername());
+
     }
 }

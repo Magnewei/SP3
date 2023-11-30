@@ -9,7 +9,7 @@ public interface IO {
     public List<Media> loadMovies() throws SQLException;
    // public List<User> loadUsers();
     public List<String> loadUserMedia(User u) throws FileNotFoundException;
-    public List<Media> loadList();
+    public List<Media> loadList() throws SQLException;
     public User login(String username, String password) throws FileNotFoundException;
 }
 

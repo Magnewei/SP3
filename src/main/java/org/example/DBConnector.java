@@ -1,16 +1,19 @@
 package org.example;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class DBConnector implements IO{
     // database URL
-    static final String DB_URL = "jdbc:mysql://localhost/world";
+    static final String DB_URL = "jdbc:mysql://localhost/streaming";
 
     //  Database credentials
     static final String USER = "root";
@@ -134,11 +137,14 @@ public class DBConnector implements IO{
     }
     @Override
     public List<Media> loadSeries() throws SQLException {
+        //Klargør liste og query
         List<Media> series = new ArrayList<>();
         String selectQuery = "SELECT name, yearsRunning, genre, rating, seasonsAndEpisodes FROM streaming.series";
+        //Opretter forbindelse
         try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(selectQuery)) {
+            //Så længe der er flere rækker i databasen
             while (resultSet.next()) {
                 String name = resultSet.getString("name");
                 String years = resultSet.getString("yearsRunning");
@@ -183,14 +189,95 @@ public class DBConnector implements IO{
     }
 
     @Override
-    public List<String> loadUserMedia(User u) throws FileNotFoundException {
-        return null;
+    public List<Media> loadList() throws SQLException {
+        List<Media> moviesAndSeries = new ArrayList<>();
+        moviesAndSeries.addAll(loadMovies());
+        moviesAndSeries.addAll(loadSeries());
+        return moviesAndSeries;
     }
 
+    public List<User> loadUsers() throws FileNotFoundException {
+        List<User> users = new ArrayList<>();
+        String selectQuery = "SELECT username, password FROM streaming.user";
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(selectQuery)) {
+            //Så længe der er flere rækker i databasen
+            while (resultSet.next()) {
+                String username = resultSet.getString("username");
+                String password = resultSet.getString("password");
+                List<String> watchedMedia = new ArrayList<>();
+                List<String> savedMedia = new ArrayList<>();
 
+                // Get the current user's ID
+                int userID;
+                String getUserIdQuery = "SELECT userID FROM streaming.user WHERE username = ?";
+                try (PreparedStatement getUserIdStatement = connection.prepareStatement(getUserIdQuery)) {
+                    getUserIdStatement.setString(1, username);
+                    ResultSet userIdResult = getUserIdStatement.executeQuery();
+
+                    if (userIdResult.next()) {
+                        userID = userIdResult.getInt("userID");
+                    } else {
+                        throw new RuntimeException("User not found");
+                    }
+                }
+
+                String watchedMovieQuery = "SELECT name FROM movie JOIN watched_movie ON movie.movieID = watched_movie.movieID JOIN user ON user.userID = watched_movie.userID WHERE user.userID = ?;";
+                try (PreparedStatement watchedStatement = connection.prepareStatement(watchedMovieQuery)) {
+                    watchedStatement.setInt(1, userID);
+                    ResultSet resultSet1 = watchedStatement.executeQuery();
+
+                    while (resultSet1.next()) {
+                        String movie = resultSet1.getString("name");
+                        watchedMedia.add(movie);
+                    }
+                }
+
+                String savedMovieQuery = "SELECT name FROM movie JOIN saved_movie ON movie.movieID = saved_movie.movieID JOIN user ON user.userID = saved_movie.userID WHERE user.userID = ?;";
+                try (PreparedStatement savedStatement = connection.prepareStatement(savedMovieQuery)) {
+                    savedStatement.setInt(1, userID);
+                    ResultSet resultSet2 = savedStatement.executeQuery();
+
+                    while (resultSet2.next()) {
+                        String movie = resultSet2.getString("name");
+                        savedMedia.add(movie);
+                    }
+                }
+
+                String watchedSeriesQuery = "SELECT name FROM series JOIN watched_series ON series.seriesID = watched_series.seriesID JOIN user ON user.userID = watched_series.userID WHERE user.userID = ?;";
+                try (PreparedStatement watchedSeriesStatement = connection.prepareStatement(watchedSeriesQuery)) {
+                    watchedSeriesStatement.setInt(1, userID);
+                    ResultSet resultSet3 = watchedSeriesStatement.executeQuery();
+
+                    while (resultSet3.next()) {
+                        String series = resultSet3.getString("name");
+                        watchedMedia.add(series);
+                    }
+                }
+
+                String savedSeriesQuery = "SELECT name FROM series JOIN saved_series ON series.seriesID = saved_series.seriesID JOIN user ON user.userID = saved_series.userID WHERE user.userID = ?;";
+                try (PreparedStatement savedSeriesStatement = connection.prepareStatement(savedSeriesQuery)) {
+                    savedSeriesStatement.setInt(1, userID);
+                    ResultSet resultSet4 = savedSeriesStatement.executeQuery();
+
+                    while (resultSet4.next()) {
+                        String series = resultSet4.getString("name");
+                        savedMedia.add(series);
+                    }
+                }
+                users.add(new User(username,password,watchedMedia,savedMedia));
+
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return users;
+    }
 
     @Override
-    public List<Media> loadList() {
+    public List<String> loadUserMedia(User u) throws FileNotFoundException {
         return null;
     }
 
@@ -233,52 +320,13 @@ public class DBConnector implements IO{
 
     @Override
     public User login(String username, String password) throws FileNotFoundException {
+        List<User> users = loadUsers();
+        for(User user : users) {
+            if (user.getUsername().equals(username)  && user.getPassword().equals(password)) {
+                return user;
+            }
+        }
+        System.out.println("No user with the username and/or password was found.");
         return null;
     }
-    /*
-    public void createDB(){
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        try{
-            //STEP 1: Register JDBC driver
-            //Class.forName("com.mysql.jdbc.Driver");
-
-            //STEP 2: Open a connection
-            System.out.println("Connecting to database...");
-            conn = DriverManager.getConnection(DB_URL,USER,PASS);
-
-            //STEP 3: Execute a query
-            System.out.println("Creating statement...");
-            String sql = "CREATE DATABASE IF NOT EXISTS ChillFlix DEFAULT CHARSET = utf8mb4;use ChillFlix;CREATE TABLE IF NOT EXISTS movie (movieID INT NOT NULL AUTO_INCREMENT,genre VARCHAR(200) NULL DEFAULT 'All',name VARCHAR(70) NOT NULL,year INT NOT NULL,rating DOUBLE NULL,PRIMARY KEY (movieID),UNIQUE INDEX name_UNIQUE (name ASC) VISIBLE);";
-            stmt = conn.prepareStatement(sql);
-
-            ResultSet rs = stmt.executeQuery(sql);
-
-            //STEP 5: Clean-up environment
-            rs.close();
-            stmt.close();
-            conn.close();
-        }catch(SQLException se){
-            //Handle errors for JDBC
-            se.printStackTrace();
-        }catch(Exception e){
-            //Handle errors for Class.forName
-            e.printStackTrace();
-        }finally{
-            //finally block used to close resources
-            try{
-                if(stmt!=null)
-                    stmt.close();
-            }catch(SQLException se2){
-            }// nothing we can do
-            try{
-                if(conn!=null)
-                    conn.close();
-            }catch(SQLException se){
-                se.printStackTrace();
-            }//end finally try
-        }//end try
-
-    }
-     */
 }

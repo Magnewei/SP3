@@ -25,10 +25,9 @@ public class User {
         return watchedMedia;
     }
 
-    public User(String username, String password, int age, List<String> watchedMedia, List<String> savedMedia) {
+    public User(String username, String password, List<String> watchedMedia, List<String> savedMedia) {
         this.username = username;
         this.password = password;
-        this.age = age;
         this.watchedMedia = watchedMedia;
         this.savedMedia = savedMedia;
     }
