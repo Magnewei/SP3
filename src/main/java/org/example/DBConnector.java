@@ -338,8 +338,71 @@ public class DBConnector implements IO{
         return List.copyOf(uniques);
     }
 
-    public void saveMediaList(User u){
+    public void saveMediaList(User u) throws SQLException {
+        List<String> allMovieTitles = new ArrayList<>();
+        List<Media> movies = loadMovies();
 
+        for (Media m : movies) {
+            allMovieTitles.add(m.getTitle());
+        }
+
+        int userID = getUserID(u);
+
+        for (String media : u.getSavedMedia()) {
+            int mediaID;
+
+            if (allMovieTitles.contains(media)) {
+                mediaID = getMediaID("movie", media);
+                saveMediaToTable("saved_movie", userID, mediaID);
+            } else {
+                mediaID = getMediaID("series", media);
+                saveMediaToTable("saved_series", userID, mediaID);
+            }
+        }
+    }
+
+    public void watchedMediaList(User u) throws SQLException {
+        List<String> allMovieTitles = new ArrayList<>();
+        List<Media> movies = loadMovies();
+
+        for (Media m : movies) {
+            allMovieTitles.add(m.getTitle());
+        }
+
+        int userID = getUserID(u);
+
+        for (String media : u.getWatchedMedia()) {
+            int mediaID;
+
+            if (allMovieTitles.contains(media)) {
+                mediaID = getMediaID("movie", media);
+                saveMediaToTable("watched_movie", userID, mediaID);
+            } else {
+                mediaID = getMediaID("series", media);
+                saveMediaToTable("watched_series", userID, mediaID);
+            }
+        }
+    }
+
+    private void saveMediaToTable(String tableName, int userID, int mediaID) throws SQLException {
+        String saveMediaQuery;
+        if(tableName.contains("watched")){
+            saveMediaQuery = "INSERT INTO " + tableName + " (userID, " + tableName.substring(8) + "ID) VALUES (?, ?)";
+        }else{
+            saveMediaQuery = "INSERT INTO " + tableName + " (userID, " + tableName.substring(6) + "ID) VALUES (?, ?)";
+
+        }
+
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement statement = connection.prepareStatement(saveMediaQuery)) {
+
+            statement.setInt(1, userID);
+            statement.setInt(2, mediaID);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public int getMediaID(String mediaType, String mediaTitle) throws SQLException {
@@ -366,5 +429,26 @@ public class DBConnector implements IO{
                 throw new RuntimeException("Media not found: " + mediaTitle);
             }
         }
+    }
+
+    public int getUserID(User u) throws SQLException {
+        int userID;
+        String username = u.getUsername();
+        String query = "SELECT userID FROM streaming.user WHERE username = ?";
+
+        try (Connection connection = DriverManager.getConnection(DB_URL, USER, PASS);
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setString(1, username);
+            ResultSet userIdResult = preparedStatement.executeQuery();
+
+            if (userIdResult.next()) {
+                userID = userIdResult.getInt("userID");
+            } else {
+                throw new RuntimeException("User not found");
+            }
+        }
+
+        return userID;
     }
 }

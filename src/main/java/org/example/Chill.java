@@ -1,17 +1,22 @@
 package org.example;
 
 import java.io.FileNotFoundException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Chill {
-    private final FileIO io = new FileIO();
+    //private final FileIO io = new FileIO();
+    private final DBConnector db = new DBConnector();
     private final TextUI ui = new TextUI();
     private User currentUser;
-    public List<Media> movieList = io.loadMovies();
-    public List<Media> seriesList = io.loadSeries();
 
-    public Chill() throws FileNotFoundException {
+    //public List<Media> movieList = io.loadMovies();
+    //public List<Media> seriesList = io.loadSeries();
+    public List<Media> movieList = db.loadMovies();
+    public List<Media> seriesList = db.loadSeries();
+
+    public Chill() throws FileNotFoundException, SQLException {
     }
 
     //Saves the selected media to the users list of saved media.

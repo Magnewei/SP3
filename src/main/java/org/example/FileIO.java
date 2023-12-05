@@ -8,7 +8,7 @@ public class FileIO implements IO {
 
 
   //  public List<User> users = new ArrayList<>();
-    private final File userInfo = new File("txt/userSave.txt");
+    private final File userInfo = new File("txtcsv/userSave.txt");
 
 
 
@@ -18,7 +18,7 @@ public class FileIO implements IO {
 
 
         try {
-            File movies = new File("txt/100bedstefilm.txt");
+            File movies = new File("txtcsv/100bedstefilm.txt");
             Scanner scanner = new Scanner(movies);
 
             while(scanner.hasNextLine()) {
@@ -56,7 +56,7 @@ public class FileIO implements IO {
 
 
         try {
-            File series = new File("txt/100bedsteserier.txt");
+            File series = new File("txtcsv/100bedsteserier.txt");
             Scanner scanner = new Scanner(series);
 
             while(scanner.hasNextLine()) {
@@ -145,7 +145,7 @@ public class FileIO implements IO {
 
     // Writes savedMedia and watchedMedia lists from a passed user object to userSave.txt.
     public void saveMediaList(User u) throws IOException {
-        File file = new File("txt/userSave.txt");
+        File file = new File("txtcsv/userSave.txt");
 
         List<String> fileContent = new ArrayList<>();
 

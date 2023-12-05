@@ -29,7 +29,7 @@ public class Main {
             String username = ui.getInput("Choose a username: ");
             String password = ui.getInput("Choose a password: ");
             List<String> empty = new ArrayList<>();
-            io.createUser(username,password,0);
+            //io.createUser(username,password,0);
             db.createUser(username,password);
             ui.displayMessage("User has been created,please login now");
             //currentUser = io.login(ui.getInput("Write your username"),ui.getInput("Write your password"));
@@ -82,6 +82,7 @@ public class Main {
                 case "7" -> {
                     //io.saveMediaList(currentUser);
                     db.saveMediaList(currentUser);
+                    db.watchedMediaList(currentUser);
                     currentUser = null;
                 }
                 default -> ui.displayMessage("You have to pick a number, corresponding to one of the options");

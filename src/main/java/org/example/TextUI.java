@@ -34,6 +34,14 @@ public class TextUI {
         return null;
     }
 
+    String displayMedia(List<Media> media) {
+        for (int i = 0; i < media.size(); i++) {
+
+            System.out.println(media.get(i).getTitle());
+        }
+        return null;
+    }
+
     public void displayCategories(List<String> categories){
         for (int i = 0; i < categories.size(); i++) {
 
